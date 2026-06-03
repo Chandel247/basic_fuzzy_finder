@@ -1,44 +1,74 @@
-# basic_ff — Basic Fuzzy Finder
+# basic_fuzzy_finder
 
-A minimal command-line fuzzy finder written in C++17 that recursively lists all files and directories under a given path.
+A minimal fuzzy finder built from scratch in C++17.
 
-## What has been done
+---
 
-### `main.cpp`
-The core C++ program written by **Shiv Pratap Singh Chandel**. It:
+## Introduction
 
-- Accepts a directory path from stdin.
-- Recursively walks that directory using `std::filesystem::recursive_directory_iterator`.
-- Skips the directories `build`, `.git`, and `.venv` to avoid noise.
-- Prints every file and subdirectory path to stdout, one per line.
+`basic_fuzzy_finder` is a command-line tool that recursively walks a directory tree and prints every file and subdirectory path to stdout. The output is designed to be piped into a fuzzy-search tool like `fzf` for fast, interactive file navigation — similar to how editors like VS Code or Neovim implement their "Go to File" feature under the hood.
 
-This output is intended to feed into a fuzzy-search pipeline (e.g. piped to `fzf` or a similar tool) for fast file navigation.
+---
 
-### `fuzzy_finder.exe`
-Pre-compiled binary of `main.cpp`, built for the current platform.
+## Why This Project Exists
 
-### `.gitignore` — added by Claude Code (2026-06-04)
-Excludes compiled binaries (`*.exe`, `*.out`, `*.o`, etc.), build directories, CMake artifacts, IDE files (`.vscode/`, `.idea/`), macOS/Windows system files, and dependency directories.
+This project was built as a **learning exercise** to understand how fuzzy finders work at a fundamental level:
 
-### `README.md` — added by Claude Code (2026-06-04)
-This file.
+- How do they collect the list of files so quickly?
+- What directories should be skipped (build artifacts, version control, virtual envs)?
+- How does the pipeline between a file-lister and a fuzzy-matcher fit together?
+
+By building the file-listing layer from scratch, the goal was to gain a concrete understanding of the mechanics behind tools like `fzf`, `telescope.nvim`, and similar utilities.
+
+---
+
+## What Has Been Done
+
+- [x] Recursive directory walker in C++17 using `std::filesystem`
+- [x] Skips noise directories: `build`, `.git`, `.venv`
+- [x] Prints all file and directory paths to stdout for pipeline use
+- [x] Pre-compiled binary (`fuzzy_finder.exe`)
+- [x] `.gitignore` to exclude binaries and build artifacts
+- [x] Repository pushed to GitHub
+
+---
 
 ## Build
 
-Requires a C++17-capable compiler (g++ or clang++).
+Requires a C++17-capable compiler (`g++` or `clang++`).
 
 ```bash
 g++ -std=c++17 -o fuzzy_finder main.cpp
 ```
 
+---
+
 ## Usage
 
 ```bash
+# List all files under a path
 echo "/path/to/search" | ./fuzzy_finder
-# pipe into fzf for interactive fuzzy search
+
+# Pipe into fzf for interactive fuzzy search
 echo "/path/to/search" | ./fuzzy_finder | fzf
 ```
 
+---
+
+## Contributions
+
+| Contribution | Shiv Pratap Singh Chandel | Claude Code (AI) |
+|---|:---:|:---:|
+| `main.cpp` — recursive directory walker | ✅ | |
+| Core logic: filesystem traversal & directory skipping | ✅ | |
+| Compiled binary (`fuzzy_finder.exe`) | ✅ | |
+| `.gitignore` — excludes binaries, build dirs, IDE files | | ✅ |
+| `README.md` — project documentation | | ✅ |
+| Git repository setup & initial commit | | ✅ |
+| Remote origin config & push to GitHub | | ✅ |
+
+---
+
 ## Author
 
-Shiv Pratap Singh Chandel
+**Shiv Pratap Singh Chandel**

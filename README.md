@@ -22,6 +22,16 @@ By building the file-listing layer from scratch, the goal was to gain a concrete
 
 ---
 
+## Timeline
+
+| Date | Commit | Milestone |
+|------|--------|-----------|
+| 2026-06-04 | [`a559907`](../../commit/a559907) | **Milestone 1 — Directory Walker**: Recursive filesystem traversal using `std::filesystem`, filtering noise directories (`build`, `.git`, `.venv`). Outputs all paths to stdout for pipeline use. |
+| 2026-06-04 | [`1ab4804`](../../commit/1ab4804) | **Docs**: README restructured with sections and contributions table. |
+| In progress | — | **Milestone 2 — Fuzzy Scoring**: `fuzzy_score()` implemented — subsequence matching that rewards consecutive character runs. Wiring into `main()` pending. |
+
+---
+
 ## What Has Been Done
 
 - [x] Recursive directory walker in C++17 using `std::filesystem`
@@ -30,6 +40,8 @@ By building the file-listing layer from scratch, the goal was to gain a concrete
 - [x] Pre-compiled binary (`fuzzy_finder.exe`)
 - [x] `.gitignore` to exclude binaries and build artifacts
 - [x] Repository pushed to GitHub
+- [ ] Fuzzy scoring algorithm (`fuzzy_score`) — implemented, not yet wired into `main()`
+- [ ] Sort results by score and display ranked output
 
 ---
 

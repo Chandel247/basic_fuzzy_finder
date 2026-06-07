@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <filesystem>
 #include <iostream>
-#include <ostream>
 #include <string>
 #include <vector>
 namespace fs=std::filesystem;
@@ -31,14 +30,38 @@ void dir_parser(std::vector<std::string> &files, std::string curr){
     }
 }
 
-int main(){
+int fuzzy_score(const std::string &file_name, const std::string &query){
+    int score=0;
+    int last_match_pos=-1;
+    int query_pointer=0;
+    int file_name_pointer=0;
+    while (file_name_pointer!=(file_name.length())){
+        if (query[query_pointer]==file_name[file_name_pointer]){
+            if (file_name_pointer-last_match_pos==1){
+                score+=2;
+                last_match_pos=file_name_pointer;
+            }
+            else {
+                score++;
+                last_match_pos=file_name_pointer;
+            }
+            if (query_pointer==query.length()-1){
+                break;
+            }
+            query_pointer++;
+        }
+        file_name_pointer++;
+    }
+    return score;
+}
 
+
+int main(){
     std::string curr;
     std::getline(std::cin,curr);
     std::vector<std::string> file_names;
     dir_parser(file_names,curr);
-    for (std::string file:file_names){
-        std::cout<<file<<std::endl;
-    }
+    std::string query;
+    std::getline(std::cin,query);
     return 0;
 }

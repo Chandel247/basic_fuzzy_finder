@@ -7,13 +7,16 @@ namespace fs=std::filesystem;
 
 void dir_parser(std::vector<std::string> &files, std::string curr){
     const std::vector<std::string> exDir={"build", ".git", ".venv"};
+    fs::path base_dir{curr};
  
     auto start=fs::recursive_directory_iterator(curr);
     auto end=fs::recursive_directory_iterator();
 
     while (start!=end){
         if (start->is_regular_file()){
-            files.push_back(start->path().string());
+            fs::path target_file{start->path()};
+            fs::path rel_path=fs::relative(target_file,base_dir);
+            files.push_back(rel_path.string());
         }
         if (start->is_directory()){
             std::string dirName=start->path().filename().string();
@@ -23,7 +26,9 @@ void dir_parser(std::vector<std::string> &files, std::string curr){
                 continue;
             }
             else {
-                files.push_back(start->path().string());
+                fs::path target_file{start->path()};
+                fs::path rel_path=fs::relative(target_file,base_dir);
+                files.push_back(rel_path.string());
             }
         }
         start++;

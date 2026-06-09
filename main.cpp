@@ -1,7 +1,7 @@
 #include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <vector>
 namespace fs=std::filesystem;
@@ -41,36 +41,33 @@ int fuzzy_score(const std::string &file_name, const std::string &query){
     int last_match_pos=-1;
     int query_pointer=0;
     int file_name_pointer=0;
+    int level_counter=0;
     if (query.length()==0) return 0;
     while (file_name_pointer!=(file_name.length())){
-        if (query[query_pointer]==file_name[file_name_pointer]){
+        char small_query=std::tolower(query[query_pointer]);
+        char small_file_name=std::tolower(file_name[file_name_pointer]);
+        if (small_query==small_file_name){
             if (file_name_pointer-last_match_pos==1){
                 score+=2;
-                last_match_pos=file_name_pointer;
+            }
+            if (query[query_pointer]==file_name[file_name_pointer]){
+                score+=1;
             }
             else {
                 score++;
-                last_match_pos=file_name_pointer;
             }
+            last_match_pos=file_name_pointer;
             query_pointer++;
             if (query_pointer==query.length()){
                 break;
             }
         }
+        else if (file_name[file_name_pointer]=='/'){
+                level_counter++;
+        }
         file_name_pointer++;
     }
-    std::string sub_sec;
-    std::vector<std::string> path_sub_sec;
-    std::stringstream ss(file_name);
-    while (ss>>sub_sec){
-        path_sub_sec.push_back(sub_sec);
-    }
-    if (path_sub_sec.size()==2){
-        score-=1;
-    }
-    else if (path_sub_sec.size()>=3) {
-        score-=(path_sub_sec.size()-1);
-    }
+    score-=(level_counter-1);
     if (query_pointer<query.length()){
         return 0;
     }

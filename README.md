@@ -15,6 +15,31 @@ The current implementation performs fuzzy matching using the **filename** as the
 
 This approach provides a simple yet effective scoring mechanism while keeping the implementation easy to understand.
 
+## Usage
+
+Build the binary and run it from any project directory:
+
+```bash
+g++ -std=c++17 -o fuzzy_finder main.cpp
+./fuzzy_finder
+```
+
+The tool scans the current working directory on startup and presents an interactive search prompt:
+
+| Key | Action |
+|-----|--------|
+| Any character | Append to query; results update instantly |
+| `Backspace` | Remove last character from query |
+| `↑` / `↓` | Move selection cursor up/down through results |
+| `Enter` | Print selected file path to stdout and exit |
+| `Escape` / `Ctrl-C` | Exit without output |
+
+Because the display (query line + result list) is written to **stderr**, the selected path on stdout is pipe-friendly:
+
+```bash
+./fuzzy_finder | xargs open
+```
+
 ## Future Improvements
 
 This project is still a work in progress, and there are several areas I plan to explore, including:
@@ -23,7 +48,7 @@ This project is still a work in progress, and there are several areas I plan to 
 * Experimenting with different scoring and ranking strategies to improve search quality.
 * Optimizing the matching algorithm for larger directory trees.
 * Adding comprehensive testing and benchmarking.
-* Improving the user interface and overall usability.
+* Improving the terminal UI (multi-column layout, scrolling for large result sets).
 
 The primary objective of this project is not to compete with mature fuzzy finders, but to gain a deeper understanding of the algorithms and implementation techniques that make them so efficient.
 

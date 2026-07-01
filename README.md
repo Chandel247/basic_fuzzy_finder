@@ -1,7 +1,10 @@
 
+
 # Basic Fuzzy Finder
 
 A lightweight fuzzy file finder written in C++ as a learning project to better understand how fuzzy search tools work internally.
+
+https://github.com/user-attachments/assets/a449a3dc-7581-4fb6-b3f0-99c616252b96
 
 ## Overview
 

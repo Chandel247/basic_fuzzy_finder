@@ -1,13 +1,17 @@
 #include "parsers/dir_parsers.hpp"
-#include "scorers/fuzzy_scorers.hpp"
+#include "tui.hpp"
 #include <iostream>
 
-namespace fs=std::filesystem;
+namespace fs = std::filesystem;
+
 int main() {
   std::vector<fs::path> files_dir_paths;
-  dir_parser(files_dir_paths, "/Users/shivpratapsinghchandel/Random");
-  for (auto &i:files_dir_paths){
-      std::cout<<i<<":"<<fuzzy_score(i, "line")<<"\n";
-  }
+  dir_parser(files_dir_paths, fs::current_path().string());
+
+  auto selected = run_tui(files_dir_paths);
+  if (!selected)
+    return 1;
+
+  std::cout << selected->string() << "\n";
   return 0;
 }
